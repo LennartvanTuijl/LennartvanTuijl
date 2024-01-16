@@ -1,0 +1,33 @@
+﻿@page "/blog"
+
+<PageTitle>Blog</PageTitle>
+
+<div class="container">
+    @foreach(var post in posts)
+    {
+        <div class="row">
+            <div class="col-4">
+                <img class="w-100" src="img/articleMainImages/@post.Image">
+            </div>
+            <div class="col-8">
+                <h1>@post.Title</h1>
+                <p>@post.Introduction</p>
+            </div>
+        </div>
+        <hr />
+        <br />
+    }
+</div>
+
+@using Lennartvantuijl.Data;
+@inject IConfiguration configuration;
+@code {
+    private AppDbContext _context;
+    public List<Post> posts;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _context = new AppDbContext(configuration);
+        posts = _context.Posts.ToList();
+    }
+}
